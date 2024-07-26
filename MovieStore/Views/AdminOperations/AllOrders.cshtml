@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Order>
+@{
+    Layout = "_AdminLayout"; 
+    ViewData["Title"] = "AllOrders";
+}
+<div style="width:100%" class="mt-2">
+    <h4> Orders</h4>
+    @if (Model != null && Model.Count() > 0)
+    {
+        <table class="table table-striped">
+            <tr>
+                <th class="text-light">OrderDate</th>
+                <th class="text-light">Name</th>
+                <th class="text-light">Email</th>
+                <th class="text-light">MobileNo</th>
+                <th class="text-light">Address</th>
+                <th class="text-light">PaymentStatus</th>
+                <th class="text-light">OrderStatus</th>
+                <th class="text-light">Actions</th>
+
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td class="text-light">@order.CreateDate.ToString("dd-MM-yyyy")</td>
+                    <td class="text-light">@order.Name</td>
+                    <td class="text-light">@order.MobileNumber</td>
+                    <td class="text-light">@order.Email</td>
+                    <td class="text-light">@order.Address</td>
+                    <td class="text-light">@order.PaymentMethod | @(order.IsPaid ? "Paid" : "Not Paid")</td>
+                    <td class="text-light">@order.OrderStatus.StatusName</td>
+                    <td>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#modal-@order.Id" class="btn btn-primary">
+                            Order-Detail
+                        </button>
+                        <a asp-action="UpdateOrderStatus" asp-route-orderId="@order.Id" class="btn btn-info">Change Order Status</a>
+                        <a asp-action="TogglePaymentStatus" asp-route-orderId="@order.Id" class="btn btn-info">Toggle Payment Status</a>
+                        @await Html.PartialAsync("/Views/AdminOperations/_OrderDetailModal.cshtml", new OrderDetailModalDTO { DivId = order.Id.ToString(), OrderDetail = order.OrderDetail })
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+
+    }
+    else
+    {
+        <h5>No orders</h5>
+    }
+
+
+</div>
+

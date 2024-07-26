@@ -1,0 +1,53 @@
+﻿@model BookDisplayModel
+
+<div class="container">
+    <h2>Promotion Details</h2>
+</div>
+
+<div class="promotion-section bg-primary py-4">
+    <div class="container text-center text-white">
+        <h2 class="mb-3">Special Promotion!</h2>
+        <p class="lead mb-4">Get 20% off on all Mystery Books. Limited time offer!</p>
+        <a href="#" class="btn btn-outline-light btn-lg" id="learnMoreBtn">Learn More</a>
+    </div>
+</div>
+
+<div id="movieDetailsSection" class="container mt-5">
+    <!-- Movie details will be loaded here dynamically -->
+</div>
+
+@section Scripts {
+    <script>
+        // Function to load movie details via AJAX
+        document.getElementById("learnMoreBtn").addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Replace with actual route for fetching movie details
+            var url = "@Url.Action("MovieDetails", "Home")";
+
+            // Fetch movie details from server
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Construct HTML for movie details
+                    var movieDetailsHtml = `
+                                <div class="card mx-auto" style="max-width: 25%;">
+                                    <img src="${data.image}" class="card-img-top mx-auto d-block" style="max-width: 75%; height: auto;" alt="Movie Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${data.name}</h5>
+                                        <p class="card-text">
+                                            Price: $${data.price} <span class="text-danger">${data.discount}% off</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            `;
+
+                    // Set movie details section content with constructed HTML
+                    document.getElementById("movieDetailsSection").innerHTML = movieDetailsHtml;
+                })
+                .catch(error => {
+                    console.error('Error fetching movie details:', error);
+                });
+        });
+    </script>
+}
