@@ -1,4 +1,4 @@
-﻿/* Animation for the banner */
+﻿/* Animation for the banner MVCProjectMovieCenter*/
 .animate-banner {
     animation: slideIn 1s forwards;
 }
@@ -14,3 +14,5 @@
         transform: translateX(0);
     }
 }
+
+

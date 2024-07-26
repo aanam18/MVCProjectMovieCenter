@@ -33,7 +33,7 @@ namespace MovieStore.Controllers
             return View(bookModel);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contact()
         {
             return View();
         }
